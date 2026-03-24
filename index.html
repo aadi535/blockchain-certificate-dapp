@@ -102,9 +102,14 @@ async function connect() {
 async function addCert() {
   await connect();
 
-  const id = document.getElementById("id").value;
-  const name = document.getElementById("name").value;
-  const course = document.getElementById("course").value;
+  const id = document.getElementById("id").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const course = document.getElementById("course").value.trim();
+
+  if (!id || !name || !course) {
+    alert("❌ Please fill all fields!");
+    return;
+  }
 
   const data = id + name + course;
   const hash = CryptoJS.SHA256(data).toString();
@@ -114,31 +119,31 @@ async function addCert() {
 
   QRCode.toCanvas(document.getElementById("qrcode"), id);
 
-  alert("Certificate Added + QR Generated!");
+  alert("Certificate Added!");
 }
 
 async function verifyCert() {
   await connect();
 
-  const id = document.getElementById("verifyId").value;
+  const id = document.getElementById("verifyId").value.trim();
+
+  if (!id) {
+    alert("❌ Enter certificate ID!");
+    return;
+  }
+
   const result = await contract.verifyCertificate(id);
 
   const body = document.body;
 
   if (result) {
-    document.getElementById("result").innerText = "Valid Certificate ✅";
-
-    body.classList.remove("fail");
+     document.getElementById("result").innerText = "Valid Certificate ✅";
     body.classList.add("success");
-
-  } else {
+   } else {
     document.getElementById("result").innerText = "Invalid Certificate ❌";
-
-    body.classList.remove("success");
-    body.classList.add("fail");
+     body.classList.add("fail");
   }
 
-  
   setTimeout(() => {
     body.classList.remove("success");
     body.classList.remove("fail");

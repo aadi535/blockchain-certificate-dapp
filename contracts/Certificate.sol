@@ -23,14 +23,20 @@ contract Certificate {
         _;
     }
 
-    function addCertificate(
-        string memory _id,
-        string memory _name,
-        string memory _course,
-        string memory _hash
-    ) public onlyAdmin {
-        certificates[_id] = Cert(_name, _course, _hash, true);
-    }
+   function addCertificate(
+    string memory _id,
+    string memory _name,
+    string memory _course,
+    string memory _hash
+  ) public onlyAdmin {
+
+    require(bytes(_id).length > 0, "ID cannot be empty");
+    require(bytes(_name).length > 0, "Name cannot be empty");
+    require(bytes(_course).length > 0, "Course cannot be empty");
+    require(bytes(_hash).length > 0, "Hash cannot be empty");
+
+    certificates[_id] = Cert(_name, _course, _hash, true);
+  } 
 
     function verifyCertificate(string memory _id) public view returns (bool) {
         return certificates[_id].isValid;
