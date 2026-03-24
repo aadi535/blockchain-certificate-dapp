@@ -1,0 +1,10 @@
+npm install -g live-server
+await contract.verifyCertificate("1")
+await contract.revokeCertificate("1")
+await contract.verifyCertificate("1")
+await contract.addCertificate("1", "Aadi", "BTech", "hash123")
+)
+  "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  "Certificate",
+const contract = await ethers.getContractAt(
+ethers
