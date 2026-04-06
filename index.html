@@ -1,160 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Certificate DApp</title>
-  <style>
-body {
-  background: black;
-  color: #00ffcc;
-  font-family: monospace;
-  text-align: center;
-  transition: background 0.5s ease;
-}
+  <title>Blockchain Certificate Verifier</title>
 
-input, button {
-  margin: 10px;
-  padding: 10px;
-  background: black;
-  color: #00ffcc;
-  border: 1px solid #00ffcc;
-}
-
-button:hover {
-  background: #00ffcc;
-  color: black;
-  cursor: pointer;
-}
-
-
-.success {
-  background: #00ff00 !important;
-  color: black;
-  animation: flash 0.5s ease;
-}
-
-
-.fail {
-  background: #ff0033 !important;
-  color: white;
-  animation: shake 0.5s ease;
-}
-
-
-@keyframes flash {
-  0% { opacity: 0.2; }
-  100% { opacity: 1; }
-}
-
-@keyframes shake {
-  0% { transform: translateX(-5px); }
-  25% { transform: translateX(5px); }
-  50% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-</style>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>Certificate System</h2>
+<h1>🔐 Blockchain Certificate Verifier 🔐</h1>
+<p>Securely store and verify certificates using blockchain</p>
 
-<h3>Add Certificate</h3>
-<input id="id" placeholder="ID"><br>
-<input id="name" placeholder="Name"><br>
-<input id="course" placeholder="Course"><br>
-<button onclick="addCert()">Add Certificate</button>
+<hr>
+
+<h2>Add Certificate</h2>
+
+<div class="box">
+  <input id="id" placeholder="Certificate ID"><br>
+  <input id="name" placeholder="Student Name"><br>
+  <input id="course" placeholder="Course"><br>
+
+  <button onclick="addCert()">Add Certificate</button>
+</div>
+
 <h3>QR Code</h3>
 <canvas id="qrcode"></canvas>
 
-<h3>Verify Certificate</h3>
-<input id="verifyId" placeholder="Enter ID"><br>
-<button onclick="verifyCert()">Verify</button>
-<button onclick="scanQR()">Use QR ID</button>
+<hr>
 
-<p id="result"></p>
+<h2>Verify Certificate</h2>
+
+<div class="box">
+  <input id="verifyId" placeholder="Enter Certificate ID"><br>
+
+  <button onclick="verifyCert()">Verify</button>
+  <button onclick="scanQR()">Use QR ID</button>
+
+  <p id="result"></p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
 
-<script>
-let contract;
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-
-const abi = [
-  "function addCertificate(string,string,string,string)",
-  "function verifyCertificate(string) view returns (bool)",
-  "function revokeCertificate(string)"
-];
-
-async function connect() {
-  if (!window.ethereum) {
-    alert("MetaMask not detected");
-    return;
-  }
-
-  const provider = new ethers.BrowserProvider(window.ethereum);
-  const signer = await provider.getSigner();
-
-  contract = new ethers.Contract(contractAddress, abi, signer);
-}
-
-async function addCert() {
-  await connect();
-
-  const id = document.getElementById("id").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const course = document.getElementById("course").value.trim();
-
-  if (!id || !name || !course) {
-    alert("❌ Please fill all fields!");
-    return;
-  }
-
-  const data = id + name + course;
-  const hash = CryptoJS.SHA256(data).toString();
-
-  const tx = await contract.addCertificate(id, name, course, hash);
-  await tx.wait();
-
-  QRCode.toCanvas(document.getElementById("qrcode"), id);
-
-  alert("Certificate Added!");
-}
-
-async function verifyCert() {
-  await connect();
-
-  const id = document.getElementById("verifyId").value.trim();
-
-  if (!id) {
-    alert("❌ Enter certificate ID!");
-    return;
-  }
-
-  const result = await contract.verifyCertificate(id);
-
-  const body = document.body;
-
-  if (result) {
-     document.getElementById("result").innerText = "Valid Certificate ✅";
-    body.classList.add("success");
-   } else {
-    document.getElementById("result").innerText = "Invalid Certificate ❌";
-     body.classList.add("fail");
-  }
-
-  setTimeout(() => {
-    body.classList.remove("success");
-    body.classList.remove("fail");
-  }, 1500);
-}
-function scanQR() {
-  const id = prompt("Enter scanned QR value:");
-  document.getElementById("verifyId").value = id;
-}
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
