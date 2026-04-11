@@ -26,7 +26,7 @@ It prevents fake certificates by ensuring data is tamper-proof and verifiable.
 4- QR code is generated
 5- User verifies certificate using ID or QR
 
-📸 Screenshots
+## 📸 Screenshots
 🔹 Add Certificate
 <img width="1104" height="949" alt="Screenshot 2026-04-11 215154" src="https://github.com/user-attachments/assets/58a39b4d-b59b-45fe-8dc4-5c5994cc25ed" />
 🔹 MetaMask Transaction
@@ -36,19 +36,19 @@ It prevents fake certificates by ensuring data is tamper-proof and verifiable.
 <img width="1041" height="962" alt="Screenshot 2026-04-11 215429" src="https://github.com/user-attachments/assets/3d8c2356-dff0-446f-b061-10d3b198b553" />
 <img width="945" height="919" alt="Screenshot 2026-04-11 215448" src="https://github.com/user-attachments/assets/72337750-c095-4e24-9fd5-65e1ab989c48" />
 
-▶️ How to Run
-npx hardhat node
-npx hardhat run scripts/deploy.js --network localhost
-live-server
-Then update the contract address in app.js.
+## ▶️ How to Run
+- npx hardhat node
+- npx hardhat run scripts/deploy.js --network localhost
+- live-server
+- Then update the contract address in app.js.
 
-⚠️ Note
-Every time the Hardhat node restarts, the contract must be redeployed and the address updated.
+## ⚠️ Note
+- Every time the Hardhat node restarts, the contract must be redeployed and the address updated.
 
-📈 Future Improvements
-Deploy on Ethereum testnet
-Real QR scanning using the camera
-Multi-admin support
+## 📈 Future Improvements
+- Deploy on Ethereum testnet
+- Real QR scanning using the camera
+- Multi-admin support
 
-👨‍💻 Author
+## 👨‍💻 Author
  Aditya Raj
