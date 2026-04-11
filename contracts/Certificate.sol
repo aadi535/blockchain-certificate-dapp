@@ -45,4 +45,8 @@ contract Certificate {
     function revokeCertificate(string memory _id) public onlyAdmin {
         certificates[_id].isValid = false;
     }
+
+    function getCertificate(string memory _id) public view returns (string memory, string memory) {
+    return (certificates[_id].studentName, certificates[_id].course);
+    }
 }

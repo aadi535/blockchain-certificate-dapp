@@ -1,10 +1,11 @@
 let contract;
 
-const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 const abi = [
   "function addCertificate(string,string,string,string)",
   "function verifyCertificate(string) view returns (bool)",
+  "function getCertificate(string) view returns (string,string)",
   "function revokeCertificate(string)"
 ];
 
@@ -65,7 +66,11 @@ async function verifyCert() {
     const body = document.body;
 
     if (result) {
-      document.getElementById("result").innerText = "Valid Certificate ✅";
+      const data = await contract.getCertificate(id);
+
+      document.getElementById("result").innerText =
+        `✅ Valid Certificate\nName: ${data[0]}\nCourse: ${data[1]}`;
+
       body.classList.add("success");
     } else {
       document.getElementById("result").innerText = "Invalid Certificate ❌";
