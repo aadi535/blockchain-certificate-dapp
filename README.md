@@ -52,3 +52,6 @@ It prevents fake certificates by ensuring data is tamper-proof and verifiable.
 
 ## 👨‍💻 Author
  Aditya Raj
+ 
+## Contributors
+Simna karengal niyaz
